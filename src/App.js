@@ -1,25 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import { BrowserRouter as Router, Route} from "react-router-dom"
+import "bootstrap/dist/css/bootstrap.min.css"
+import classproject from './components/classproject.component';
+import about from './components/About.component';
+import Navbar from './components/Navbar.component';
+import queries from './components/queries.component';
+// Current place... Need to find where he adds them together. might be the third link in the comments. 
+//https://youtu.be/7CqJlxBYj-M?t=3345
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="container">
+      <Navbar />
+      <Route path="/" exact component={classproject} />
+      <Route path="/about" component ={about} />
+      <Route path="/ourqueries" component ={queries} />
+      </div>
+    </Router>
   );
 }
 
