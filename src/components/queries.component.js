@@ -1,6 +1,14 @@
 import React, {Component} from 'react'
+//import query1 from '../../backend/query1.py'
+import {PythonShell} from "python-shell"
 
-
+/*function query(){
+//    let {PythonShell} = require('python-shell')
+    const pyshell = new PythonShell('./query1.py')
+    pyshell.on('message', (message)=> {
+      console.log(message)
+    })
+}*/
 export default class queries extends Component {
   /*constructor(props){
     super(props)
@@ -9,7 +17,9 @@ export default class queries extends Component {
     }
   }
 */
+
   render(){
+   // query()
     return(
       <div>
         <h1>This is where our queries will go</h1>

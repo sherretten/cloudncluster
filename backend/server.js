@@ -15,7 +15,7 @@ Just got connnected to the ip address of google. Now I want to pull data and que
 
 const express = require('express')
 const cors = require('cors')
-const mongoose = require('mongoose')
+//const mongoose = require('mongoose')
 
 require('dotenv').config()
 
@@ -37,8 +37,25 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
         client.close();
     })
 });
+function query1(){
+      let {PythonShell} = require('python-shell')
+      for(let i = 1; i <= 6;i++){
+      const pyshell = new PythonShell(`./query${i}.py`)
+      pyshell.on('message', (message)=> {
+        console.log(message)
+      })}
+ }
+
+
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`)
+  query1();
+  /*query2();
+  query3();
+  query4();
+  query5();
+  query6();  */
+  
 })
 
 
