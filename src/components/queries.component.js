@@ -1,14 +1,6 @@
 import React, {Component} from 'react'
-//import query1 from '../../backend/query1.py'
-import {PythonShell} from "python-shell"
+import axios from 'axios'
 
-/*function query(){
-//    let {PythonShell} = require('python-shell')
-    const pyshell = new PythonShell('./query1.py')
-    pyshell.on('message', (message)=> {
-      console.log(message)
-    })
-}*/
 export default class queries extends Component {
   /*constructor(props){
     super(props)
