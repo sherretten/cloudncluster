@@ -24,14 +24,20 @@ const axios = require('axios')
 export default class classproject extends Component{
   constructor(props) {
     super(props)
+
+
     //If adding more changes create more of these
     this.onChangeLocationText = this.onChangeLocationText.bind(this)
     this.onChangeDate = this.onChangeDate.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.onChangeDirection = this.onChangeDirection.bind(this)
+    this.onChangeEndLocation = this.onChangeEndLocation.bind(this)
+    this.onChangeEndDate = this.onChangeEndDate.bind(this)
+
 
     this.state = {
       _id: '',
-      highwayname: '',
+      highwayname: '205',
       detectorid: 0,
       milepost: 0,
       stationid: 0,
@@ -42,43 +48,61 @@ export default class classproject extends Component{
       stationclass: 0,
       numberlanes: 0,
       length: 0,
-      locationtext: '',
+      locationtext: '', //Start
+      endLocation: '', //End
       latlon: '',
       shortdirection: '',
       direction: '',
       date: new Date(),
+      endDate: new Date(),
+      queryType: 'Speed',
     }
   }
 
   componentDidMount(){
     //This is the default values that I'm placing, need to connect to database
-    this.setState({
-      _id: ['5db'],
-      highwayname: '205-North',
-      lanenumber: 1,
-      numberlanes: 3, 
-      length: .97,
-      locationtext: 'Sunnyside',
-      date: new Date()
-      //Keep adding more code for each of the fields
-    })
+    // this.setState({
+    //   _id: ['5db'],
+    //   highwayname: '205-North',
+    //   lanenumber: 1,
+    //   numberlanes: 3, 
+    //   length: .97,
+    //   locationtext: 'Sunnyside',
+    //   date: new Date()
+    //   //Keep adding more code for each of the fields
+    // })
 
   }
   
   //Copy and paste this for all the things that we want to change wtih a text box
-  onChangeLocationText(e){
+  onChangeLocationText = selected =>{
     this.setState({
-      locationtext: e.target.value
+      locationtext: selected.value
     })
   }
-  onChangeId(e){
+  onChangeEndLocation = selected =>{
     this.setState({
-      _id: e.target.value
+      endLocation: selected.value
+    })
+  }
+  onChangeEndDate(date){
+    this.setState({
+      endDate: date
     })
   }
   onChangeDate(date){
     this.setState({
       date: date
+    })
+  }
+  onChangeDirection = selected =>{
+    this.setState({
+      shortdirection: selected.value
+    })
+  }
+  onChangeQueryType = selected => {
+    this.setState({
+      queryType: selected.value //e.target.value
     })
   }
 
@@ -89,20 +113,23 @@ export default class classproject extends Component{
     const freeway ={
       highway: this.state.highwayname,
       locationtext: this.state.locationtext,
+      endLocation: this.state.endLocation,
       date: this.state.date,
-      //If we are changing more suff add here.
+      endDate: this.state.endDate,
+      queryType: this.state.queryType,
+
     }
-    axios.get('http://localhost:5000',{ 
-      params: { 
-        speed: (2011, 9, 21, 0,0,0)
-      }
-    })
-      .then(res => console.log(res.data))
-      .catch(error => console.log(error))
+    // axios.get('http://localhost:5000',{ 
+    //   params: { 
+    //     speed: (2011, 9, 21, 0,0,0)
+    //   }
+    // })
+    //   .then(res => console.log(res.data))
+    //   .catch(error => console.log(error))
 
-
+//We grab all the data, then we need to send it to the results child.
     console.log(freeway)
-    window.location = '/results'
+    //window.location = '/results'
   }
 
 
@@ -129,19 +156,19 @@ export default class classproject extends Component{
         </div>
         <div className="d-inline-block pr-5">  
           <label>Select Query Type </label>
-          <Dropdown options={typeOfQuery} onChange={this._onSelect} value={defaultOption} placeholder="Select an option" />
+          <Dropdown options={typeOfQuery} onChange={this.onChangeQueryType} value={defaultOption} placeholder="Select an option" />
         </div>
         <div className="d-inline-block pr-5">  
           <label>Select Direction</label>
-          <Dropdown options={a} onChange={this._onSelect} value={defaultOptionA} placeholder="Select an option" />
+          <Dropdown options={a} onChange={this.onChangeDirection} value={defaultOptionA} placeholder="Select an option" />
         </div>
         <div className="d-inline-block pr-5">  
           <label>From </label>
-          <Dropdown options={detectorNB} onChange={this._onSelect} value={defaultFrom} placeholder="Select an option" />
+          <Dropdown options={detectorNB} onChange={this.onChangeLocationText} value={defaultFrom} placeholder="Select an option" />
         </div>
         <div className="d-inline-block pr-5">  
           <label>To </label>
-          <Dropdown options={detectorSB} onChange={this._onSelect} value={defaultTo} placeholder="Select an option" />
+          <Dropdown options={detectorSB} onChange={this.onChangeEndLocation} value={defaultTo} placeholder="Select an option" />
         </div>
         <div className="d-block"> 
           <label className="pr-1">Start Date(Earliest 9/15/2011): </label>
@@ -149,7 +176,7 @@ export default class classproject extends Component{
         </div>
         <div className="d-block"> 
           <label className="pr-2">End Date(latest EOF 2015): </label>
-          <DatePicker selected={this.state.date} onChange={this.onChangeDate} />
+          <DatePicker selected={this.state.date} onChange={this.onChangeEndDate} />
         </div>
         <div className="form-group">
           <input type="submit" value="Get results" className="btn btn-primary" />
